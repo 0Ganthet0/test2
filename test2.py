@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 def zaloguj_sie():
     messagebox.showinfo("Udalo sie", "Pomyślnie zalogowano!")
-    okno.after(500, zaloguj_sie)
+    okno.after(300, zaloguj_sie)
 okno = Tk()
 
 okno.title("Księgarnia")

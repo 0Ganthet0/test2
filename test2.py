@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 def zaloguj_sie():
     messagebox.showinfo("Udalo sie", "Pomyślnie zalogowano!")
-    okno.after(2000, zaloguj)
+    okno.after(500, zaloguj_sie)
 okno = Tk()
 
 okno.title("Księgarnia")
@@ -24,7 +24,7 @@ entry_haslo.grid(padx=5, pady=5)
 
 testowy_label = Label(okno)
 
-zaloguj = Button(okno, text="Zaloguj", command=zaloguj)
+zaloguj = Button(okno, text="Zaloguj", command=zaloguj_sie)
 tekst_rejestracja = Label(okno, text=f"Jesli nie masz konta to -> Stwórz Konto")
 
 zaloguj.grid(padx=5, pady=5),tekst_rejestracja.grid(padx=5, pady=5)

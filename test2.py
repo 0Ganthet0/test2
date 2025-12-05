@@ -1,8 +1,16 @@
 from tkinter import *
 from tkinter import messagebox
 def zaloguj_sie():
-    messagebox.showinfo("Udalo sie", "Pomyślnie zalogowano!")
-    okno.after(300, zaloguj_sie)
+    messagebox.showinfo("Udalo sie!", "Pomyslnie zalogowano!")
+
+def nie_pokazuj_hasla():
+    entry_haslo.config(show="*")
+    pokaz_haslo_button.config(text="Pokaz", command=pokaz_haslo)
+
+def pokaz_haslo():
+    entry_haslo.config(show="")
+    pokaz_haslo_button.config(text="Nie pokazuj", command=nie_pokazuj_hasla)
+
 okno = Tk()
 
 okno.title("Księgarnia")
@@ -19,8 +27,11 @@ entry_login.grid(padx=5, pady=5)
 tekst_haslo = Label(okno, text="Hasło: ")
 tekst_haslo.grid(padx=5, pady=5)
 
-entry_haslo = Entry(okno)
+entry_haslo = Entry(okno, show="*")
 entry_haslo.grid(padx=5, pady=5)
+
+pokaz_haslo_button = Button(okno, text="Pokaz", command=pokaz_haslo)
+pokaz_haslo_button.grid(padx=5, pady=5) 
 
 testowy_label = Label(okno)
 

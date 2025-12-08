@@ -1,10 +1,19 @@
 from smtplib import bCRLF
 from tkinter import *
-import bcrypt
+#import bcrypt
+import re
 from tkinter import messagebox
-
+temp_login = ""
+temp_haslo = ""
 def zaloguj_sie():
-    messagebox.showinfo("Udalo sie!", "Pomyslnie zalogowano!")
+    global temp_haslo, temp_login
+    login = entry_login.get()
+    haslo = entry_haslo.get()
+    if login == temp_login and haslo == temp_haslo:
+        messagebox.showinfo("Udało się", "Pomyślnie zalogowano")
+    else:
+        messagebox.showerror("...", "Zjebałeś.")
+        okno.after(1, zaloguj_sie)
 
 def nie_pokazuj_hasla():
     entry_haslo.config(show="*")
@@ -15,8 +24,24 @@ def pokaz_haslo():
     pokaz_haslo_button.config(text="Nie pokazuj", command=nie_pokazuj_hasla)
 
 def stworz_konto():
-    print("x")
+    global temp_login, temp_haslo
+    login_reje = entry_login_reje.get()
+    haslo_reje = entry_haslo_reje.get()
+    p_haslo_reje = entry_powtorz_haslo_reje.get()
+    regex = r"^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
 
+    if haslo_reje == "" or login_reje == "":
+        messagebox.showerror("Error", "Pola nie są wypełnione (gdzies tutaj jeszcze trzeba dodac ze jak login uzytkownika juz istnieje to tez nie mozna)")
+    elif not re.fullmatch(regex, haslo_reje):
+        messagebox.showerror("Error", "Hasło nie spełnia wymagań (Bochen jak to czytasz to weź dodaj jakiegoś labela czerwonego że hasło musi mieć min 8 znakow, conajmniej 1 duża litere 1 cyfre i 1 znakspecjalny)")
+    elif haslo_reje != p_haslo_reje:
+        messagebox.showerror("Error", "Hasła nie są takie same")
+    else:
+        messagebox.showinfo("Udało się!", "Konto stworzone pomyślnie.")
+        temp_login = login_reje
+        temp_haslo = haslo_reje
+        zmien_na_logowanie()
+    
 def zmien_na_rejestracje():
     entry_login.delete(0, END)
     entry_haslo.delete(0, END)

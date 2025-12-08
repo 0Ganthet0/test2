@@ -12,7 +12,7 @@ def zaloguj_sie():
     if login == temp_login and haslo == temp_haslo:
         messagebox.showinfo("Udało się", "Pomyślnie zalogowano")
     else:
-        messagebox.showerror("...", "Zjebałeś.")
+        messagebox.showerror("...", "Czeka cie męka.")
         okno.after(1, zaloguj_sie)
 
 def nie_pokazuj_hasla():

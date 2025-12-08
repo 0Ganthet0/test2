@@ -3,8 +3,8 @@ from tkinter import *
 #import bcrypt
 import re
 from tkinter import messagebox
-temp_login = ""
-temp_haslo = ""
+temp_login = str
+temp_haslo = str
 def zaloguj_sie():
     global temp_haslo, temp_login
     login = entry_login.get()
@@ -12,7 +12,7 @@ def zaloguj_sie():
     if login == temp_login and haslo == temp_haslo:
         messagebox.showinfo("Udało się", "Pomyślnie zalogowano")
     # else:
-    #     messagebox.showerror("...", "Czeka cie męka.")
+    #     messagebox.showerror("...", "Czeka cie męka.")    
     #     okno.after(1, zaloguj_sie)
 
 def nie_pokazuj_hasla():

@@ -9,8 +9,16 @@ conn = db.connect("ksiegarnia.db")
 cur = conn.cursor()
 
 def wyswietl_katalog():
-    # Miłosza robota
-    print('a')
+    global labelka, lista_ksiazek
+    lista_ksiazek.delete(0, END)
+    labelka.grid(row=3, column=1, columnspan=3, pady=10)
+    lista_ksiazek.grid(row=4, column=1, columnspan=3, pady=10, padx=10)
+    cur.execute("SELECT Autor, Tytul, Ilosc_Dostepnych FROM Ksiazka")
+    wynik = cur.fetchall()
+
+    for ksiazka in wynik:
+        autor, tytul, ilosc = ksiazka
+        lista_ksiazek.insert(END, f"{autor} - {tytul} (Dostępnych: {ilosc})")
 
 def wypozycz():
     # miłosza robota
@@ -20,11 +28,21 @@ def zwracanie():
     # miłosza robota
     print('c')
 
-def historia_wypozyczen():
-    # miłosza robota
-    print('d')
+def historia_wypozyczen(uzytkownik_id):
+    global labelka2, lista_historii_wypozyczen
+    lista_historii_wypozyczen.delete(0, END)
+    labelka2.grid(row=3, column=4, columnspan=3, pady=10)
+    lista_historii_wypozyczen.grid(row=4, column=4, columnspan=4, pady=10, padx=10)
+
+    cur.execute("SELECT Ksiazka.Tytul, Data_wypozyczenia, Termin_zwrotu, Status FROM Wypozyczenia JOIN Ksiazka ON Ksiazka_ID = ID_Ksiazka WHERE Uzytkownik_ID = ?", (uzytkownik_id,))
+    wynik = cur.fetchall()
+
+    for wypozyczenie in wynik:
+        tytul, Data_wypozyczenia, Termin_zwrotu, Status = wypozyczenie
+        lista_historii_wypozyczen.insert(END, f"{tytul} - Data wypożyczenia: {Data_wypozyczenia} - Termin zwrotu: {Termin_zwrotu}, Status: {Status}")
 
 def zaloguj_sie():
+    global labelka, lista_ksiazek, labelka2, lista_historii_wypozyczen
     login = entry_login.get()
     haslo = entry_haslo.get()
     if login == "" or haslo == "":
@@ -39,7 +57,10 @@ def zaloguj_sie():
         fetched_haslo = wynik[0]
         if haslo == fetched_haslo:
             messagebox.showinfo(":D","Udało się zalogować")
+            cur.execute("SELECT ID_Uzytkownik FROM Uzytkownik WHERE login = ?", (login,))
+            uzytkownik_id = cur.fetchone()[0]
             okno_uzytkownika = Tk()
+            okno_uzytkownika.geometry("1200x600")
             # # Administrator dokończy się później jak bedzie działający administrator
             
             # przycisk_sprawdz_wypozyczone = Button(okno_uzytkownika, text=f"Wyświetl Wypożyczone Książki", command=wysietl_wypozyczone)
@@ -64,6 +85,14 @@ def zaloguj_sie():
             
             # przycisk_wyslij_powiadomienie = Button(okno_uzytkownika, text=f"Wyślij Powiadomienie", command=wyslij_powiadomienie)
             # przycisk_wyslij_powiadomienie.grid(row=3, column=6, padx=15, pady=15)
+            
+
+            #robie tu katalog
+            labelka = Label(okno_uzytkownika, text="Lista książek")
+            lista_ksiazek = Listbox(okno_uzytkownika, width=60, height=15)
+
+            labelka2 = Label(okno_uzytkownika, text="Historia wypożyczeń")
+            lista_historii_wypozyczen = Listbox(okno_uzytkownika, width=97, height=15)
 
             przycisk_wyswietl_katalog = Button(okno_uzytkownika, text=f"Wyświetl Katalog", command=wyswietl_katalog)
             przycisk_wyswietl_katalog.grid(row=2, column=1, padx=15, pady=15)
@@ -74,7 +103,7 @@ def zaloguj_sie():
             przycisk_zwracania = Button(okno_uzytkownika, text=f"Zwróć" , command=zwracanie)
             przycisk_zwracania.grid(row=2, column=3, padx=15, pady=15) 
 
-            przycisk_historia_wypozyczen = Button(okno_uzytkownika, text=f"Sprawdz Historie", command=historia_wypozyczen)
+            przycisk_historia_wypozyczen = Button(okno_uzytkownika, text=f"Sprawdz Historie", command=lambda: historia_wypozyczen(uzytkownik_id))
             przycisk_historia_wypozyczen.grid(row=2, column=4, padx=15, pady=15) 
             
             okno.destroy()
@@ -105,7 +134,7 @@ def stworz_konto():
         messagebox.showerror("Error", "Hasła nie są takie same")
     else:
         messagebox.showinfo("Udało się!", "Konto stworzone pomyślnie.")
-        cur.execute("INSERT INTO Uzytkownik(Nazwa, login, haslo, ROLA) VALUES (?,?,?,?)",(login_reje, login_reje, haslo_reje, "Uzytkownik"))
+        cur.execute("INSERT INTO Uzytkownik(login, haslo, ROLA) VALUES (?,?,?,?)",(login_reje, haslo_reje, "Uzytkownik"))
         conn.commit()
         zmien_na_logowanie()
     

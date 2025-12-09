@@ -40,17 +40,42 @@ def zaloguj_sie():
         if haslo == fetched_haslo:
             messagebox.showinfo(":D","Udało się zalogować")
             okno_uzytkownika = Tk()
+            # # Administrator dokończy się później jak bedzie działający administrator
             
-            przycisk_wyswietl_katalog = Button(okno, text=f"Wyświetl Katalog", command=wyswietl_katalog)
+            # przycisk_sprawdz_wypozyczone = Button(okno_uzytkownika, text=f"Wyświetl Wypożyczone Książki", command=wysietl_wypozyczone)
+            # przycisk_sprawdz_wypozyczone.grid(row=2, column=1, padx=15, pady=15)
+            
+            # przycisk_dodaj_ksiazke = Button(okno_uzytkownika, text=f"Dodaj Książke", command=dodaj_ksiazke)
+            # przycisk_dodaj_ksiazke.grid(row=2, column=2, padx=15, pady=15)
+
+            # przycisk_usun_ksiazke = Button(okno_uzytkownika, text=f"Usun Książke", command=usun_ksiazke)
+            # przycisk_usun_ksiazke.grid(row=2, column=3, padx=15, pady=15)
+            
+
+            # przycisk_dodaj_uzo = Button(okno_uzytkownika, text=f"Dodaj Użytkownika", command=dodaj_uzytkownika)
+            # przycisk_dodaj_uzo.grid(row=2, column=4, padx=15, pady=15)
+            
+            
+            # przycisk_usun_uzo = Button(okno_uzytkownika, text=f"Usun Użytkownika", command=usun_uzytkownika)
+            # przycisk_usun_uzo.grid(row=2, column=5, padx=15, pady=15)
+            
+            # przycisk_sprawdz_termin = Button(okno_uzytkownika, text=f"Sprawdz Termin Zwrotu", command=sprawdz_termin)
+            # przycisk_sprawdz_termin.grid(row=2, column=6, padx=15, pady=15)
+            
+            # przycisk_wyslij_powiadomienie = Button(okno_uzytkownika, text=f"Wyślij Powiadomienie", command=wyslij_powiadomienie)
+            # przycisk_wyslij_powiadomienie.grid(row=3, column=6, padx=15, pady=15)
+
+            przycisk_wyswietl_katalog = Button(okno_uzytkownika, text=f"Wyświetl Katalog", command=wyswietl_katalog)
             przycisk_wyswietl_katalog.grid(row=2, column=1, padx=15, pady=15)
 
-            przycisk_wypozyczania = Button(okno, text=f"Wypożycz" , command=wypozycz) 
+            przycisk_wypozyczania = Button(okno_uzytkownika, text=f"Wypożycz" , command=wypozycz) 
             przycisk_wypozyczania.grid(row=2, column=2, padx=15, pady=15)
 
-            przycisk_zwracania = Button(okno, text=f"Zwróć" , command=zwracanie)
+            przycisk_zwracania = Button(okno_uzytkownika, text=f"Zwróć" , command=zwracanie)
             przycisk_zwracania.grid(row=2, column=3, padx=15, pady=15) 
-            przycisk_historia_wypozyczen = Button(okno, text=f"Sprawdz Historie", command=historia_wypozyczen)
-            przycisk_historia_wypozyczen.grid(row=2, column=3, padx=15, pady=15) 
+
+            przycisk_historia_wypozyczen = Button(okno_uzytkownika, text=f"Sprawdz Historie", command=historia_wypozyczen)
+            przycisk_historia_wypozyczen.grid(row=2, column=4, padx=15, pady=15) 
             
             okno.destroy()
             okno_uzytkownika.mainloop()

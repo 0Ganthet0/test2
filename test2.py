@@ -201,6 +201,7 @@ okno = Tk()
 
 okno.title("Księgarnia")
 okno.geometry('430x300')
+okno.resizable('False','False')
  
 tekst_zaloguj = Label(okno, text="Zaloguj")
 tekst_zaloguj.grid(row=0,padx=5, pady=5)

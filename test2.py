@@ -175,63 +175,67 @@ def zaloguj_sie():
         fetched_haslo = wynik[0]
         if haslo == fetched_haslo:
             messagebox.showinfo(":D","Udalo sie zalogowac")
-            cur.execute("SELECT ID_Uzytkownik FROM Uzytkownik WHERE login = ?", (login,))
+            cur.execute("SELECT ID_Uzytkownik, Rola FROM Uzytkownik WHERE login = ?", (login,))
             uzytkownik_id = cur.fetchone()[0]
             current_user_id = uzytkownik_id
-            okno_uzytkownika = Tk()
-            okno_uzytkownika.geometry("1200x600")
-            # # Administrator dokonczy sie pozniej jak bedzie dzialajacy administrator
-            
-            # przycisk_sprawdz_wypozyczone = Button(okno_uzytkownika, text=f"Wyswietl Wypozyczone Ksiazki", command=wysietl_wypozyczone)
-            # przycisk_sprawdz_wypozyczone.grid(row=2, column=1, padx=15, pady=15)
-            
-            # przycisk_dodaj_ksiazke = Button(okno_uzytkownika, text=f"Dodaj Ksiazke", command=dodaj_ksiazke)
-            # przycisk_dodaj_ksiazke.grid(row=2, column=2, padx=15, pady=15)
+            if cur.fetchone()[1] == "Admin":
+                okno_admina = Tk()
+                okno_admina.mainloop()
+            elif cur.fetchone()[1] == "Uzytkownik":
+                okno_uzytkownika = Tk()
+                okno_uzytkownika.geometry("1200x600")
+                # # Administrator dokonczy sie pozniej jak bedzie dzialajacy administrator
+                
+                # przycisk_sprawdz_wypozyczone = Button(okno_uzytkownika, text=f"Wyswietl Wypozyczone Ksiazki", command=wysietl_wypozyczone)
+                # przycisk_sprawdz_wypozyczone.grid(row=2, column=1, padx=15, pady=15)
+                
+                # przycisk_dodaj_ksiazke = Button(okno_uzytkownika, text=f"Dodaj Ksiazke", command=dodaj_ksiazke)
+                # przycisk_dodaj_ksiazke.grid(row=2, column=2, padx=15, pady=15)
 
-            # przycisk_usun_ksiazke = Button(okno_uzytkownika, text=f"Usun Ksiazke", command=usun_ksiazke)
-            # przycisk_usun_ksiazke.grid(row=2, column=3, padx=15, pady=15)
-            
+                # przycisk_usun_ksiazke = Button(okno_uzytkownika, text=f"Usun Ksiazke", command=usun_ksiazke)
+                # przycisk_usun_ksiazke.grid(row=2, column=3, padx=15, pady=15)
+                
 
-            # przycisk_dodaj_uzo = Button(okno_uzytkownika, text=f"Dodaj Uzytkownika", command=dodaj_uzytkownika)
-            # przycisk_dodaj_uzo.grid(row=2, column=4, padx=15, pady=15)
-            
-            
-            # przycisk_usun_uzo = Button(okno_uzytkownika, text=f"Usun Uzytkownika", command=usun_uzytkownika)
-            # przycisk_usun_uzo.grid(row=2, column=5, padx=15, pady=15)
-            
-            # przycisk_sprawdz_termin = Button(okno_uzytkownika, text=f"Sprawdz Termin Zwrotu", command=sprawdz_termin)
-            # przycisk_sprawdz_termin.grid(row=2, column=6, padx=15, pady=15)
-            
-            # przycisk_wyslij_powiadomienie = Button(okno_uzytkownika, text=f"Wyslij Powiadomienie", command=wyslij_powiadomienie)
-            # przycisk_wyslij_powiadomienie.grid(row=3, column=6, padx=15, pady=15)
-            
+                # przycisk_dodaj_uzo = Button(okno_uzytkownika, text=f"Dodaj Uzytkownika", command=dodaj_uzytkownika)
+                # przycisk_dodaj_uzo.grid(row=2, column=4, padx=15, pady=15)
+                
+                
+                # przycisk_usun_uzo = Button(okno_uzytkownika, text=f"Usun Uzytkownika", command=usun_uzytkownika)
+                # przycisk_usun_uzo.grid(row=2, column=5, padx=15, pady=15)
+                
+                # przycisk_sprawdz_termin = Button(okno_uzytkownika, text=f"Sprawdz Termin Zwrotu", command=sprawdz_termin)
+                # przycisk_sprawdz_termin.grid(row=2, column=6, padx=15, pady=15)
+                
+                # przycisk_wyslij_powiadomienie = Button(okno_uzytkownika, text=f"Wyslij Powiadomienie", command=wyslij_powiadomienie)
+                # przycisk_wyslij_powiadomienie.grid(row=3, column=6, padx=15, pady=15)
+                
 
-            #robie tu katalog
-            labelka = Label(okno_uzytkownika, text="Lista ksiazek")
-            lista_ksiazek = Listbox(okno_uzytkownika, width=60, height=15)
+                #robie tu katalog
+                labelka = Label(okno_uzytkownika, text="Lista ksiazek")
+                lista_ksiazek = Listbox(okno_uzytkownika, width=60, height=15)
 
-            labelka2 = Label(okno_uzytkownika, text="Historia wypozyczen")
-            lista_historii_wypozyczen = Listbox(okno_uzytkownika, width=97, height=15)
+                labelka2 = Label(okno_uzytkownika, text="Historia wypozyczen")
+                lista_historii_wypozyczen = Listbox(okno_uzytkownika, width=97, height=15)
 
-            przycisk_wyswietl_katalog = Button(okno_uzytkownika, text=f"Wyswietl Katalog", command=wyswietl_katalog)
-            przycisk_wyswietl_katalog.grid(row=2, column=1, padx=15, pady=15)
+                przycisk_wyswietl_katalog = Button(okno_uzytkownika, text=f"Wyswietl Katalog", command=wyswietl_katalog)
+                przycisk_wyswietl_katalog.grid(row=2, column=1, padx=15, pady=15)
 
-            przycisk_wypozyczania = Button(okno_uzytkownika, text=f"Wypozycz" , command=wypozycz) 
-            przycisk_wypozyczania.grid(row=2, column=2, padx=15, pady=15)
+                przycisk_wypozyczania = Button(okno_uzytkownika, text=f"Wypozycz" , command=wypozycz) 
+                przycisk_wypozyczania.grid(row=2, column=2, padx=15, pady=15)
 
-            przycisk_przedluz_wypozyczenie = Button(okno_uzytkownika, text=f"Przedluz wypozyczenie", command=przedluz_wypozyczenie)
-            przycisk_przedluz_wypozyczenie.grid(row=2, column=3, padx=15, pady=15)
+                przycisk_przedluz_wypozyczenie = Button(okno_uzytkownika, text=f"Przedluz wypozyczenie", command=przedluz_wypozyczenie)
+                przycisk_przedluz_wypozyczenie.grid(row=2, column=3, padx=15, pady=15)
 
-            przycisk_zwracania = Button(okno_uzytkownika, text=f"Zwroc" , command=zwracanie)
-            przycisk_zwracania.grid(row=2, column=4, padx=15, pady=15) 
+                przycisk_zwracania = Button(okno_uzytkownika, text=f"Zwroc" , command=zwracanie)
+                przycisk_zwracania.grid(row=2, column=4, padx=15, pady=15) 
 
-            przycisk_historia_wypozyczen = Button(okno_uzytkownika, text=f"Sprawdz Historie", command=lambda: historia_wypozyczen(uzytkownik_id))
-            przycisk_historia_wypozyczen.grid(row=2, column=5, padx=15, pady=15) 
-            
-            okno.destroy()
-            okno_uzytkownika.mainloop()
-        else:
-            messagebox.showerror(">:C", "Nie udalo sie zalogowac")
+                przycisk_historia_wypozyczen = Button(okno_uzytkownika, text=f"Sprawdz Historie", command=lambda: historia_wypozyczen(uzytkownik_id))
+                przycisk_historia_wypozyczen.grid(row=2, column=5, padx=15, pady=15) 
+                
+                okno.destroy()
+                okno_uzytkownika.mainloop()
+            else:
+                messagebox.showerror(">:C", "Nie udalo sie zalogowac")
 
 
 def nie_pokazuj_hasla():

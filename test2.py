@@ -273,21 +273,26 @@ def sprawdz_termin():
     global wypozyczenia
     selected = wypozyczenia.curselection()
     if not selected:
-        messagebox.showerror("Blad", "Zadno wypozyczenie nie zostalo wybrane")
+        messagebox.showerror("Błąd", "Żadne wypożyczenie nie zostało wybrane")
         return
-
-    indeks = selected[0]
-    tekst = wypozyczenia.get(indeks)
-    tytul = tekst.split(" - Data wypozyczenia:")[0].strip()
-
-    cur.execute("SELECT Termin_Zwrotu FROM Wypozyczenia w JOIN Ksiazka k ON w.Ksiazka_ID = k.ID_Ksiazka WHERE w.Uzytkownik_ID = ? AND k.Tytul = ? AND w.Status IN ('Wypozyczona','Przedluzona')", (current_user_id, tytul))
+    tekst = wypozyczenia.get(selected[0])
+    try:
+        czesci = tekst.split(" - ")
+        id_wypo_str = czesci[0].strip()
+        id_wypo = int(id_wypo_str)
+    except:
+        messagebox.showerror("Błąd", "Nie udało się odczytać ID wypożyczenia")
+        return
+    cur.execute("SELECT Termin_Zwrotu, Status FROM Wypozyczenia WHERE ID_Wypozyczenia = ?", (id_wypo,))
     wynik = cur.fetchone()
     if not wynik:
-        messagebox.showwarning("Uwaga", "Nie udało się znaleźć terminu zwrotu dla tego wypożyczenia")
+        messagebox.showwarning("Uwaga", "Nie znaleziono wypożyczenia o podanym ID")
         return
-
-    termin_zwrotu = wynik[0]
-    messagebox.showinfo("Termin zwrotu", f"Termin zwrotu wypożyczenia '{tytul}': {termin_zwrotu}")
+    termin_zwrotu, status = wynik
+    if status not in ('Wypozyczona', 'Przedluzona'):
+        messagebox.showinfo("Informacja", f"To wypożyczenie ma status: {status}\nTermin zwrotu: {termin_zwrotu}")
+    else:
+        messagebox.showinfo("Termin zwrotu", f"Termin zwrotu: {termin_zwrotu}\nStatus: {status}")
 
 def wypozycz():
     global lista_ksiazek, lista_historii_wypozyczen, current_user_id
